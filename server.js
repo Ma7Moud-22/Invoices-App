@@ -18,4 +18,4 @@ app.get('/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'));
 });
 
-app.listen(5500, () => console.info(`App listening on port 5500`));
+app.listen(process.env.PORT || 5500, () => console.info(`App listening on port 5500`));
