@@ -1,0 +1,12 @@
+@media print {
+  aside,
+  div.invoice-details a,
+  div.invoice-buttons {
+    display: none;
+  }
+
+  div.status,
+  div.details {
+    border: 1px solid #ccc;
+  }
+}

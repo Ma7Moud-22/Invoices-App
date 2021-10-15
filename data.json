@@ -1,0 +1,226 @@
+[
+  {
+    "id": "RT3080",
+    "description": "Re-branding",
+    "status": "Paid",
+    "invoiceDate": "18 Aug 2021",
+    "paymentDate": "19 Aug 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "Jensen Huang",
+      "mail": "jensen@mail.com",
+      "addrees": [
+        "106 Kendell Street",
+        "Sharrington",
+        "NR25 5WQ",
+        "United Kingdom"
+      ]
+    },
+    "itemList": [
+      {
+        "name": "Brand Guidelines",
+        "qty": 1,
+        "price": 1800.9,
+        "total": 1800.9
+      }
+    ]
+  },
+  {
+    "id": "XM9141",
+    "description": "Graphic Design",
+    "status": "Paid",
+    "invoiceDate": "21 Aug 2021",
+    "paymentDate": "20 Sep 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "Alex Grim",
+      "mail": "alexgrim@mail.com",
+      "addrees": [
+        "84 Church Way",
+        "Bradford",
+        "BD1 9PB",
+        "United Kingdom"
+      ]
+    },
+    "itemList": [
+      {
+        "name": "Banner Design",
+        "qty": 1,
+        "price": 156,
+        "total": 156
+      },
+      {
+        "name": "Email Design",
+        "qty": 2,
+        "price": 200,
+        "total": 400
+      }
+    ]
+  },
+  {
+    "id": "RG0314",
+    "description": "Website Redesign",
+    "status": "Paid",
+    "invoiceDate": "24 Sep 2021",
+    "paymentDate": "01 Oct 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "John Morrison",
+      "mail": "jm@mail.com",
+      "addrees": [
+        "79 Dover Road",
+        "Westhall",
+        "IP19 3PF",
+        "United Kingdom"
+      ]
+    },
+    "itemList": [
+      {
+        "name": "Website Redesign",
+        "qty": 1,
+        "price": 14002.33,
+        "total": 14002.33
+      }
+    ]
+  },
+  {
+    "id": "RT2080",
+    "description": "Logo Concept",
+    "status": "Pending",
+    "invoiceDate": "11 Oct 2021",
+    "paymentDate": "12 Oct 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "Alyssa Werner",
+      "mail": "alyssa@mail.co.uk",
+      "addrees": [
+        "63 Warwick Road",
+        "Carlisle",
+        "CA20 2TG",
+        "United Kingdom"
+      ]
+    },
+    "itemList": [
+      {
+        "name": "Logo Sketches",
+        "qty": 1,
+        "price": 102.4,
+        "total": 102.4
+      }
+    ]
+  },
+  {
+    "id": "AA1449",
+    "description": "Re-branding",
+    "status": "Pending",
+    "invoiceDate": "07 Oct 2021",
+    "paymentDate": "14 Oct 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "Mellisa Clarke",
+      "mail": "mellisa.clarke@example.com",
+      "addrees": [
+        "46 Abbey Row",
+        "Cambridge",
+        "CB5 6EG",
+        "United Kingdom"
+      ]
+    },
+    "itemList": [
+      {
+        "name": "New Logo",
+        "qty": 1,
+        "price": 1532.33,
+        "total": 1532.33
+      },
+      {
+        "name": "Brand Guidelines",
+        "qty": 1,
+        "price": 2500,
+        "total": 2500
+      }
+    ]
+  },
+  {
+    "id": "TY9141",
+    "description": "Landing Page Design",
+    "status": "Pending",
+    "invoiceDate": "01 Oct 2021",
+    "paymentDate": "31 Oct 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "Thomas Wayne",
+      "mail": "thomas@dc.com",
+      "addrees": [
+        "3964 Queens Lane",
+        "Gotham",
+        "60457",
+        "United State Of America"
+      ]
+    },
+    "itemList": [
+      {
+        "name": "Web Design",
+        "qty": 1,
+        "price": 6155.91,
+        "total": 6155.91
+      }
+    ]
+  },
+  {
+    "id": "FV2353",
+    "description": "Logo Re-design",
+    "status": "Draft",
+    "invoiceDate": "05 Nov 2021",
+    "paymentDate": "12 Nov 2021",
+    "fromAddress": [
+      "19 Union Terrace",
+      "London",
+      "E1 3EZ",
+      "United Kingdom"
+    ],
+    "clientDetails": {
+      "name": "Anita Wainwright",
+      "mail": "",
+      "addrees": []
+    },
+    "itemList": [
+      {
+        "name": "Logo Re-design",
+        "qty": 1,
+        "price": 3102.04,
+        "total": 3102.04
+      }
+    ]
+  }
+]

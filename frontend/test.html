@@ -1,0 +1,165 @@
+<div class="container">
+  <aside>
+    <div class="logo">
+      <a href="/" data-link><span class="circle"></span></a>
+    </div>
+
+    <div class="down">
+      <div class="theme">
+        <img src="./imgs/icon-moon.svg" alt="theme" />
+      </div>
+
+      <div class="user">
+        <img src="./imgs/005.jpg" alt="user" />
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div>
+      <div class="head">
+        <div class="left">
+          <h1>Invoices</h1>
+          <p>There are 7 total invoices.</p>
+        </div>
+
+        <div class="right">
+          <div class="filter">
+            <button>
+              <span>Filter<span> by status</span></span>
+            </button>
+
+            <ul class="filter">
+              <li>
+                <label for="filter1">
+                  <input type="radio" name="filter-radio" id="filter1" />
+                  <span>Paid</span>
+                </label>
+              </li>
+              <li>
+                <label for="filter2">
+                  <input type="radio" name="filter-radio" id="filter2" />
+                  <span>Pending</span>
+                </label>
+              </li>
+              <li>
+                <label for="filter3">
+                  <input type="radio" name="filter-radio" id="filter3" />
+                  <span>Draft</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="add-new">
+            <button>
+              <span>New<span> Invoice</span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body"></div>
+    </div>
+
+    <form action="#">
+      <h2>Create Invoice</h2>
+
+      <div>
+        <fieldset>
+          <legend>Bill From</legend>
+          <div class="full">
+            <label for="street">Street Adress</label>
+            <input type="text" name="street" id="street" />
+          </div>
+          <div class="half">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" />
+          </div>
+          <div class="half">
+            <label for="post">Post Code</label>
+            <input type="number" name="post" id="post" />
+          </div>
+          <div class="full">
+            <label for="country">Country</label>
+            <input type="text" name="country" id="country" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Bill To</legend>
+          <div class="full">
+            <label for="client-name">Client's Name</label>
+            <input type="text" name="client-name" id="client-name" />
+          </div>
+          <div class="full">
+            <label for="client-email">Client's Email</label>
+            <input
+              type="email"
+              name="client-email"
+              id="client-email"
+              placeholder="e.g. email@example.com"
+            />
+          </div>
+          <div class="full">
+            <label for="client-adress">Street Adress</label>
+            <input type="text" name="client-adress" id="client-adress" />
+          </div>
+          <div class="half">
+            <label for="client-city">City</label>
+            <input type="text" name="client-city" id="client-city" />
+          </div>
+          <div class="half">
+            <label for="client-post">Post Adress</label>
+            <input type="number" name="client-post" id="client-post" />
+          </div>
+          <div class="full">
+            <label for="client-country">Country</label>
+            <input type="text" name="client-country" id="client-country" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Invoice</legend>
+          <div class="half">
+            <label for="date">Invoice Date</label>
+            <input type="date" name="date" id="date" />
+          </div>
+          <div class="half">
+            <label for="payment">Payment Term</label>
+            <div>
+              <select name="payment" id="payment">
+                <option value="Net 1 Day">Net 1 Day</option>
+                <option value="Net 7 Day">Net 7 Day</option>
+                <option value="Net 14 Day">Net 14 Day</option>
+                <option value="Net 30 Day">Net 30 Day</option>
+              </select>
+            </div>
+          </div>
+          <div class="full">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              name="description"
+              id="description"
+              placeholder="e.g. Graphic Design Service"
+            />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>ItemList</legend>
+          <div class="full">
+            <button class="add-new-item">Add New Item</button>
+          </div>
+        </fieldset>
+      </div>
+
+      <div>
+        <button>Discard</button>
+        <button>Save as Draft</button>
+        <button>Save & Send</button>
+      </div>
+    </form>
+  </main>
+</div>
