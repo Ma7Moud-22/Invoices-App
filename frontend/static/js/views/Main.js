@@ -5,7 +5,7 @@ export default class Main {
     this.DATA;
 
     this.getData = async function getData() {
-      await fetch('http://localhost:5500/data' || `${process.env.PORT}/data`)
+      await fetch('http://localhost:5000/data' || `${process.env.PORT}/data`)
         .then(res => res.json())
         .then(data => this.DATA = data)
         .catch(err => console.log(err))
