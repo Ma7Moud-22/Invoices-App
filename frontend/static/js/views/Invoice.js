@@ -1,5 +1,6 @@
 import Aside from './Aside.js';
 const sideBar = new Aside;
+const { protocol, host } = location;
 
 export default class Invoice {
   constructor(params) {
@@ -16,7 +17,7 @@ export default class Invoice {
   async getHtml() {
     let card;
 
-    await fetch(`https://invoices-app-v1.herokuapp.com/card/${this.params.id}`)
+    await fetch(`${protocol}//${host}/card/${this.params.id}`)
       .then(res => res.json())
       .then(data => card = data)
       .catch(err => console.log(err))

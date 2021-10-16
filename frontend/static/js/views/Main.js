@@ -1,11 +1,12 @@
 const filter = ['All', 'Paid', 'Pending', 'Draft'];
+const { protocol, host } = location;
 
 export default class Main {
   constructor() {
     this.DATA;
 
     this.getData = async function getData() {
-      await fetch('https://invoices-app-v1.herokuapp.com/data')
+      await fetch(`${protocol}//${host}/data`)
         .then(res => res.json())
         .then(data => this.DATA = data)
         .catch(err => console.log(err))
@@ -87,6 +88,7 @@ window.addEventListener('load', () => {
       const form = document.querySelector('form');
       form.classList.add('active');
       form.style.cssText = `height: ${document.documentElement.clientHeight - 80}px`;
+      form.parentElement.style.cssText = 'height: 100vh';
 
       const div = form.previousElementSibling;
       div.classList.add('active');
@@ -98,6 +100,7 @@ window.addEventListener('load', () => {
       const form = document.querySelector('form');
       const div = form.previousElementSibling;
 
+      form.parentElement.removeAttribute('style');
       form.classList.remove('active');
       div.classList.remove('active');
 

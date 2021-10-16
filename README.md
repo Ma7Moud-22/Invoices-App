@@ -4,25 +4,25 @@
   </a>
 </p>
 
-
 <h1 align="center">Invoices App</h1>
-
 
 <p align="center">Made with ❤️ by Mahmoud Kamal &copy; 2021</p>
 
 ## Overview
+
 <p>Frontend mentor challenge you can find it <a href="https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl">here</a>. And for this challenge I used...</p>
 
-* All with vanilla JavaScript (Routing and site structure).
-* A lot of CSS (This obvious!).
-* NodeJs & Express (Simple App to handle some routes).
+- All with vanilla JavaScript (Routing and site structure).
+- A lot of CSS (This obvious!).
+- NodeJs & Express (Simple App to handle some routes).
 
 ... I tried to make it SPA a.k.a "Single Page Application" and that makes it harder but it is worth it.
 
-
 ## Features
-* Dark mode Support
-* Responsive on all screens 
-* Focus and hover states and other stuff
-* Transition when routing from page to another
-* Filter cards with status
+
+- Dark mode Support
+- Responsive on all screens
+- Print Media query (Invoice App!)
+- Focus and hover states and other stuff
+- Transition when routing from page to another
+- Filter cards with status

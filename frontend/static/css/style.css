@@ -54,7 +54,7 @@ aside {
   right: 0;
   left: 0;
   top: 0;
-  z-index: 2;
+  z-index: 3;
 }
 
 aside div.logo {
@@ -144,6 +144,7 @@ main > div.active:first-child::after {
   inset: 0;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
   opacity: 1;
+  z-index: 1;
 }
 
 main > * {
@@ -483,6 +484,7 @@ main form {
 
 main form.active {
   transform: translateX(calc(100% + var(--margin)));
+  z-index: 2;
 }
 
 form h2 {
