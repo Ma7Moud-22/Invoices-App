@@ -1,11 +1,13 @@
 const filter = ['All', 'Paid', 'Pending', 'Draft'];
 
+console.log(process.env.PORT)
+
 export default class Main {
   constructor() {
     this.DATA;
 
     this.getData = async function getData() {
-      await fetch(`https://invoices-app-v1.herokuapp.com/data`)
+      await fetch('https://invoices-app-v1.herokuapp.com/data')
         .then(res => res.json())
         .then(data => this.DATA = data)
         .catch(err => console.log(err))

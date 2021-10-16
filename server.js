@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -17,7 +18,5 @@ app.use('/static', express.static(path.resolve(__dirname, 'frontend', 'static'))
 app.get('/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'frontend', 'index.html'));
 });
-
-console.log(process.env.PORT)
 
 app.listen(process.env.PORT || 5000, () => console.info(`App listening on port 5500`));

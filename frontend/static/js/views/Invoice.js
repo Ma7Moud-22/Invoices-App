@@ -16,7 +16,7 @@ export default class Invoice {
   async getHtml() {
     let card;
 
-    await fetch(`http://1.1.1.4:5500/card/${this.params.id}`)
+    await fetch(`https://invoices-app-v1.herokuapp.com/card/${this.params.id}`)
       .then(res => res.json())
       .then(data => card = data)
       .catch(err => console.log(err))
