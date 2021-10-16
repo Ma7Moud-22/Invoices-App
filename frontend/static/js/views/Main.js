@@ -1,7 +1,5 @@
 const filter = ['All', 'Paid', 'Pending', 'Draft'];
 
-console.log(process.env.PORT)
-
 export default class Main {
   constructor() {
     this.DATA;
