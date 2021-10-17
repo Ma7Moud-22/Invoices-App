@@ -54,7 +54,7 @@ export default class Invoice {
             </div>
             <div>
               <span>Payment Due</span>
-              <div>${card.invoiceDate}</div>
+              <div>${card.paymentDate}</div>
             </div>
           </div>
 

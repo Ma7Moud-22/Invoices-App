@@ -87,25 +87,23 @@ window.addEventListener('load', () => {
     if (e.target.matches('div.add-new button')) {
       const form = document.querySelector('form');
       form.classList.add('active');
-      form.style.cssText = `height: ${document.documentElement.clientHeight - 80}px`;
-      form.parentElement.style.cssText = 'height: 100vh';
-
-      const div = form.previousElementSibling;
-      div.classList.add('active');
-      div.style.cssText = `height: 0`;
+      form.previousElementSibling.classList.add('active');
+      form.previousElementSibling.style.cssText = `height: ${form.clientHeight}px`;
+      document.body.style.cssText = 'overflow: hidden;';
     }
     // ==== Remove Form ====
-    if (e.target.matches('main > div.active') || e.target.matches('form > div:last-of-type button:nth-child(1)')) {
-      e.preventDefault();
+    if (
+      e.target.matches('a[data-link]') ||
+      e.target.matches('main > div.active') ||
+      e.target.matches('form > div:last-of-type button:nth-child(1)')
+    ) {
       const form = document.querySelector('form');
-      const div = form.previousElementSibling;
-
-      form.parentElement.removeAttribute('style');
-      form.classList.remove('active');
-      div.classList.remove('active');
-
-      div.removeAttribute('style');
-      setTimeout(() => form.removeAttribute('style'), 500);
+      if (form) {
+        form.removeAttribute('class');
+        form.previousElementSibling.removeAttribute('class');
+        form.previousElementSibling.removeAttribute('style');
+        document.body.removeAttribute('style');
+      }
     }
 
     // ==== Card Click Animation ====
@@ -167,23 +165,21 @@ async function filterData(data, key) {
   return filter;
 }
 
-
 function changePage(data) {
-  window.addEventListener('change', () => {
+  window.addEventListener('change', (e) => {
+    if (e.target.closest('ul') && e.target.closest('ul').matches('.filter')) {
+      document.querySelector('div.left p').innerHTML = `There are ${data.length} total invoices.`;
 
-    document.querySelector('div.left p').innerHTML = `There are ${data.length} total invoices.`;
+      const body = document.querySelector('div.body');
+      body.style.cssText = 'transform: translateY(-10rem); opacity: 0';
 
-    const body = document.querySelector('div.body');
-    body.style.cssText = 'transform: translateY(-10rem); opacity: 0';
-
-    setTimeout(() => {
-      body.innerHTML = card(data);
-      body.removeAttribute('style');
-    }, 500);
+      setTimeout(() => {
+        body.innerHTML = card(data);
+        body.removeAttribute('style');
+      }, 500);
+    }
   })
-
 }
-
 
 function card(data) {
   return data.map(card => {

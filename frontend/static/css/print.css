@@ -2,11 +2,61 @@
   aside,
   div.invoice-details a,
   div.invoice-buttons {
-    display: none;
+    display: none !important;
   }
 
   div.status,
   div.details {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc !important;
+    background-color: #fff !important;
+  }
+
+  div.details {
+    grid-template-columns: repeat(3, 1fr) !important;
+    row-gap: 3rem !important;
+  }
+
+  table.service thead,
+  table.service tbody tr > *:not(:first-child, :last-child) {
+    display: block !important;
+  }
+
+  div.details address:first-of-type {
+    grid-column: 3/4 !important;
+    justify-self: flex-end !important;
+    text-align: end !important;
+  }
+
+  table.service {
+    grid-column: 1/4 !important;
+  }
+
+  div.details div.mail {
+    grid-column: unset !important;
+  }
+
+  .item-info,
+  div.status,
+  div.details,
+  div.date-payment div div,
+  div.mail div {
+    color: black !important;
+  }
+
+  .item-info span,
+  div.date-payment div span,
+  div.mail span,
+  div.details address > *,
+  table.service thead tr th,
+  table.service tbody tr td {
+    color: #525252 !important;
+  }
+
+  table.service {
+    background-color: #fff !important;
+  }
+
+  table.service tfoot {
+    background-color: #797979 !important;
   }
 }

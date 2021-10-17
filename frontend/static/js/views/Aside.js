@@ -10,7 +10,7 @@ export default class Aside {
 
         <div class="down">
           <div class="theme">
-            <img src="/static/imgs/icon-moon.svg" alt="theme" />
+            <img src="/static/imgs/icon-${localStorage.theme === 'dark' ? 'sun' : 'moon'}.svg" alt="theme" />
           </div>
 
           <div class="user">
@@ -34,7 +34,7 @@ window.addEventListener('load', () => {
 
   function setTheme(theme, icon) {
     document.documentElement.setAttribute('data-theme', theme);
-    icon.src = `./static/imgs/icon-${theme === 'dark' ? 'sun' : 'moon'}.svg`;
+    icon.src = `/static/imgs/icon-${theme === 'dark' ? 'sun' : 'moon'}.svg`;
     localStorage.setItem('theme', theme);
   }
 });
