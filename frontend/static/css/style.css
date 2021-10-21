@@ -12,6 +12,7 @@ a,
 a:hover,
 a:visited {
   text-decoration: none;
+  color: inherit;
 }
 
 :root {
@@ -438,6 +439,7 @@ div.card div.card-right {
 div.card .name {
   font-size: 0.75rem;
   text-align: end;
+  white-space: nowrap;
   color: rgba(var(--main-font-clr), 0.7);
 }
 
@@ -571,8 +573,37 @@ form fieldset div label {
   color: hsla(var(--accent-clr) 90% / 0.9);
 }
 
-form fieldset div > div {
+form fieldset div > div,
+label[for='invoiceDate'] {
   position: relative;
+}
+
+label[for='invoiceDate']::before {
+  content: '';
+  position: absolute;
+  right: 10px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #fff;
+  top: 40px;
+  z-index: 1;
+}
+
+label[for='invoiceDate']::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 46px;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1px solid hsla(var(--accent-clr) 67% / 1);
+  border-top-width: 3px;
+  border-radius: 1.5px;
+  z-index: 2;
+}
+
+:root[data-theme='dark'] label[for='invoiceDate']::before {
+  background-color: var(--dark-clr);
 }
 
 form fieldset div > div::before {
@@ -686,7 +717,7 @@ div.invoice-details > * + * {
   margin-top: 1.5rem;
 }
 
-div.invoice-details a {
+div.invoice-details > a {
   font-size: 0.75rem;
   color: rgba(var(--main-font-clr), 0.9);
   padding-left: 1.5rem;
@@ -694,7 +725,7 @@ div.invoice-details a {
   position: relative;
 }
 
-div.invoice-details a::before {
+div.invoice-details > a::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -923,13 +954,18 @@ div.invoice-buttons button {
   font-weight: 700;
   color: #fff;
   background-color: rgb(236 87 87);
-  padding: 1rem 1.5rem;
   border-radius: 10rem;
+}
+
+div.invoice-buttons button a {
+  width: 100%;
+  padding: 1rem 1.5rem;
 }
 
 div.invoice-buttons button:first-child {
   background-color: rgb(249 250 254);
   color: rgba(var(--main-font-clr), 0.7);
+  padding: 1rem 1.5rem;
 }
 
 :root[data-theme='dark'] div.invoice-buttons button:first-child {

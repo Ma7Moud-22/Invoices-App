@@ -49,7 +49,7 @@ export default class Form {
             <input type="text" name="client-city" id="client-city" />
           </div>
           <div class="half">
-            <label for="client-post">Post Adress</label>
+            <label for="client-post">Post Code</label>
             <input type="number" name="client-post" id="client-post" />
           </div>
           <div class="full">
@@ -61,13 +61,13 @@ export default class Form {
         <fieldset>
           <legend>Invoice</legend>
           <div class="half">
-            <label for="date">Invoice Date</label>
-            <input type="date" name="date" id="date" />
+            <label for="invoiceDate">Invoice Date</label>
+            <input type="date" name="date" id="invoiceDate" />
           </div>
           <div class="half">
-            <label for="payment">Payment Term</label>
+            <label for="paymentDate">Payment Term</label>
             <div>
-              <select name="payment" id="payment">
+              <select name="payment" id="paymentDate">
                 <option value="1">Net 1 Day</option>
                 <option value="7">Net 7 Day</option>
                 <option value="14">Net 14 Day</option>
@@ -77,12 +77,7 @@ export default class Form {
           </div>
           <div class="full">
             <label for="description">Description</label>
-            <input
-              type="text"
-              name="description"
-              id="description"
-              placeholder="e.g. Graphic Design Service"
-            />
+            <input type="text" name="description" id="description" placeholder="e.g. Graphic Design Service" />
           </div>
         </fieldset>
 
@@ -106,6 +101,9 @@ export default class Form {
 }
 
 window.addEventListener('load', () => {
+  const dateInput = document.querySelector('input[type="date"]');
+  dateInput && (dateInput.valueAsDate = new Date());
+
   // ==== Blur & Focus Events ====
   window.addEventListener('focusin', (e) => {
     if (e.target.localName === 'input') {
@@ -119,71 +117,31 @@ window.addEventListener('load', () => {
     }
   });
 
-  // ==== Form Submtter ====
-  const form = document.querySelector('form');
-  form.addEventListener('submit', (e) => {
-
-    const allInputs = document.querySelectorAll('form input');
-    e.preventDefault();
-    if (e.submitter.id === 'send') {
-
-      // console.log(allInputs.filter(input => input.value.trim() !== '' ? true : false))
-
-      const obj = {
-        id: gitRandomId(),
-        description: getValue('input#description'),
-        status: "Paid",
-        invoiceDate: getDate(getValue('input#date')),
-        paymentDate: addDays(getValue('input#date'), +getValue('select#payment')),
-        fromAddress: [getValue('input#street'), getValue('input#city'), getValue('input#post'), getValue('input#country')],
-        clientDetails: {
-          name: getValue('input#client-name'),
-          mail: getValue('input#client-email'),
-          addrees: [getValue('input#client-adress'), getValue('input#client-city'), getValue('input#client-post'), getValue('input#client-country')]
-        },
-        itemList: [
-          {
-            name: "Brand Guidelines",
-            qty: 1,
-            price: 1800.9,
-            total: 1800.9
-          }
-        ]
-      };
-
-      // console.log(obj)
-
-    }
-
-    if (e.submitter.id === 'draft') {
-      console.log(e)
-    }
-  });
-  // =============================
-
   // ==== Add New Item ====
+  let counter = 0;
   window.addEventListener('click', (e) => {
     if (e.target.matches('.add-new-item')) {
       e.preventDefault();
       const fieldset = document.createElement('fieldset');
       fieldset.classList = 'item-set';
+      fieldset.setAttribute('data-count', counter)
 
       fieldset.innerHTML =
         `<div class="full">
           <label for="item-name">Item Name</label>
-          <input type="text" name="item-name" id="item-name" />
+          <input type="text" name="item-name" id="item-name" data-count="${counter}" />
         </div>
         <div>
           <label for="item-qty">Qty.</label>
-          <input type="number" name="item-qty" id="item-qty" />
+          <input type="number" name="item-qty" id="item-qty" data-count="${counter}" />
         </div>
         <div>
           <label for="item-price">Price</label>
-          <input type="number" name="item-price" id="item-price" step=".01" />
+          <input type="number" name="item-price" id="item-price" step=".01" data-count="${counter}" />
         </div>
         <div>
           <label for="total">Total</label>
-          <input type="number" name="total" id="total" disabled value="0" />
+          <input type="number" name="total" id="total" disabled value="0" data-count="${counter}" />
         </div>
         <button id="remove-item">
           <svg width="13" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -194,6 +152,7 @@ window.addEventListener('load', () => {
           </svg>
         </button>`;
 
+      counter++;
       e.target.before(fieldset);
     }
     // ==== Remove Item ====
@@ -206,50 +165,12 @@ window.addEventListener('load', () => {
 
   // ==== Math ====
   window.addEventListener('input', (e) => {
-    const qtyValue = document.getElementById('item-qty') && Number(document.getElementById('item-qty').value),
-      price = document.getElementById('item-price') && Number(document.getElementById('item-price').value),
-      total = document.getElementById('total');
+    if (e.target.name === 'item-qty' || e.target.name === 'item-price') {
+      const qty = e.target.closest('fieldset').querySelector('input[name="item-qty"]');
+      const price = e.target.closest('fieldset').querySelector('input[name="item-price"]');
+      const total = e.target.closest('fieldset').querySelector('input[name="total"]');
 
-    if (qtyValue && price && (e.target.id === 'item-price' || e.target.id === 'item-qty')) {
-      total.value = qtyValue * price;
+      total.value = Number(qty.value.trim()) * Number(price.value.trim());
     }
   });
 });
-
-
-function getValue(selector) {
-  return document.querySelector(selector).value.trim();
-}
-
-const monthes = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-function getDate(date) {
-  const day = date.split('-')[2];
-  const month = monthes[Number(date.split('-')[1]) - 1];
-  const year = date.split('-')[0];
-  return `${day} ${month} ${year}`;
-}
-
-function addDays(date, days) {
-  var result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return `${result.getDate()} ${monthes[result.getMonth()]} ${result.getFullYear()}`;
-}
-
-function gitRandomId() {
-  const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-  const twoLetters = [];
-  for (let i = 0; i < 2; i++) {
-    const lttersGen = Math.ceil(Math.random() * (letters.length - 1));
-    !twoLetters.includes(letters[lttersGen]) && twoLetters.push(letters[lttersGen]);
-  }
-
-  const fourDigits = [];
-  for (let i = 0; i < 4; i++) {
-    const digitssGen = Math.ceil(Math.random() * (digits.length - 1));
-    fourDigits.push(digits[digitssGen]);
-  }
-
-  return twoLetters.join('') + fourDigits.join('');
-}

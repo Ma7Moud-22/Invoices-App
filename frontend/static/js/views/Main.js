@@ -1,20 +1,23 @@
 const filter = ['All', 'Paid', 'Pending', 'Draft'];
-const { protocol, host } = location;
+let cards = window.localStorage.cardList && JSON.parse(window.localStorage.cardList) || null;
 
 export default class Main {
   constructor() {
-    this.DATA;
+    this.DATA = cards ? cards : null;
 
     this.getData = async function getData() {
-      await fetch(`${protocol}//${host}/data`)
+      await fetch('/data')
         .then(res => res.json())
-        .then(data => this.DATA = data)
+        .then(data => {
+          this.DATA = data;
+          window.localStorage.cardList = JSON.stringify(data);
+        })
         .catch(err => console.log(err))
     }
   }
 
   async render() {
-    await this.getData();
+    !cards && await this.getData();
 
     const key = await getKey(this.DATA);
     const data = await filterData(this.DATA, key);
@@ -99,10 +102,7 @@ window.addEventListener('load', () => {
     ) {
       const form = document.querySelector('form');
       if (form) {
-        form.removeAttribute('class');
-        form.previousElementSibling.removeAttribute('class');
-        form.previousElementSibling.removeAttribute('style');
-        document.body.removeAttribute('style');
+        removeForm(form);
       }
     }
 
@@ -117,7 +117,47 @@ window.addEventListener('load', () => {
       `
     }
     // ==============================
+
+    // ==== delete invoice ====
+    if (e.target.matches('div.invoice-buttons button a')) {
+      const id = document.querySelector('h1.id').innerText;
+      const list = JSON.parse(localStorage.cardList);
+
+      localStorage.cardList = JSON.stringify(list.filter(item => item.id !== id));
+      setTimeout(() => reloadCards(list.filter(item => item.id !== id), 100), 650);
+    }
+    // ========================
   });
+
+  // ==== Form Submtter ====
+  window.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (e.submitter.id === 'send') {
+      const allInputs = e.target.querySelectorAll('[name]');
+      let dataObj = null;
+      allInputs.forEach(input => {
+        input.value.trim() === '' && (input.style.borderColor = 'rgb(236, 87, 87)');
+
+        if (input.value.trim() !== '' && input.id !== 'invoiceDate' && input.id !== 'paymentDate') {
+          dataObj = makeInvoice(allInputs, 'Pending');
+        }
+      });
+
+      if (dataObj !== null) {
+        cards.unshift(dataObj);
+        localStorage.cardList = JSON.stringify(cards);
+        reloadCards(cards, 200);
+        removeForm(e.target);
+      }
+    }
+
+    if (e.submitter.id === 'draft') {
+      const allInputs = e.target.querySelectorAll('[name]');
+      const dataObj = makeInvoice(allInputs, 'Draft');
+      console.log(dataObj)
+    }
+  });
+  // =============================
 
   // =====================
 
@@ -160,23 +200,17 @@ function getKey(data) {
 async function filterData(data, key) {
   const filter = key === 'All' ? data : await data.filter(card => card.status === key);
 
-  changePage(filter);
+  changeData(filter);
 
   return filter;
 }
 
-function changePage(data) {
+function changeData(data) {
   window.addEventListener('change', (e) => {
     if (e.target.closest('ul') && e.target.closest('ul').matches('.filter')) {
       document.querySelector('div.left p').innerHTML = `There are ${data.length} total invoices.`;
 
-      const body = document.querySelector('div.body');
-      body.style.cssText = 'transform: translateY(-10rem); opacity: 0';
-
-      setTimeout(() => {
-        body.innerHTML = card(data);
-        body.removeAttribute('style');
-      }, 500);
+      reloadCards(data, 300);
     }
   })
 }
@@ -198,4 +232,93 @@ function card(data) {
       </div>
     </a>`
   }).join('');
+}
+
+const monthes = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function getDate(date) {
+  const day = date.split('-')[2];
+  const month = monthes[Number(date.split('-')[1]) - 1];
+  const year = date.split('-')[0];
+  return `${day} ${month} ${year}`;
+}
+
+function addDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return `${result.getDate()} ${monthes[result.getMonth()]} ${result.getFullYear()}`;
+}
+
+function gitRandomId() {
+  const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+  const twoLetters = [];
+  for (let i = 0; i < 2; i++) {
+    const lttersGen = Math.ceil(Math.random() * (letters.length - 1));
+    !twoLetters.includes(letters[lttersGen]) && twoLetters.push(letters[lttersGen]);
+  }
+
+  const fourDigits = [];
+  for (let i = 0; i < 4; i++) {
+    const digitssGen = Math.ceil(Math.random() * (digits.length - 1));
+    fourDigits.push(digits[digitssGen]);
+  }
+
+  return twoLetters.join('') + fourDigits.join('');
+}
+
+function makeInvoice(allInputs, status) {
+  const dataObj = {
+    id: gitRandomId(),
+    status
+  };
+
+  allInputs.forEach(input => {
+    switch (input.id) {
+      // description
+      case 'description': dataObj.description = input.value.trim(); break;
+      // dates
+      case 'invoiceDate': dataObj.invoiceDate = getDate(input.value.trim()); break;
+      case 'paymentDate': dataObj.paymentDate = addDays(dataObj.invoiceDate, Number(input.value.trim())); break;
+      // fromAddress
+      case 'street': dataObj.fromAddress = [input.value.trim()]; break;
+      case 'city': dataObj.fromAddress[1] = input.value.trim(); break;
+      case 'post': dataObj.fromAddress[2] = input.value.trim(); break;
+      case 'country': dataObj.fromAddress[3] = input.value.trim(); break;
+      // clientDetails
+      case 'client-name': dataObj.clientDetails = { name: input.value.trim() }; break;
+      case 'client-email': dataObj.clientDetails.mail = input.value.trim(); break;
+      case 'client-adress': dataObj.clientDetails.addrees = [input.value.trim()]; break;
+      case 'client-city': dataObj.clientDetails.addrees[1] = input.value.trim(); break;
+      case 'client-post': dataObj.clientDetails.addrees[2] = input.value.trim(); break;
+      case 'client-country': dataObj.clientDetails.addrees[3] = input.value.trim(); break;
+      // clientDetails
+      case 'item-name':
+        if (Number(input.getAttribute('data-count')) === 0) dataObj.itemList = [{ name: input.value.trim() }];
+        else dataObj.itemList[Number(input.getAttribute('data-count'))] = { name: input.value.trim() };
+        break;
+      case 'item-qty': dataObj.itemList[Number(input.getAttribute('data-count'))].qty = Number(input.value.trim()); break;
+      case 'item-price': dataObj.itemList[Number(input.getAttribute('data-count'))].price = Number(input.value.trim()); break;
+      case 'total': dataObj.itemList[Number(input.getAttribute('data-count'))].total = Number(input.value.trim()); break;
+    }
+  });
+
+  return dataObj;
+}
+
+function removeForm(formEl) {
+  formEl.removeAttribute('class');
+  formEl.previousElementSibling.removeAttribute('class');
+  formEl.previousElementSibling.removeAttribute('style');
+  document.body.removeAttribute('style');
+}
+
+function reloadCards(data, duration) {
+  const body = document.querySelector('div.body');
+  body.style.cssText = 'transform: translateY(-10rem); opacity: 0';
+
+  setTimeout(() => {
+    body.innerHTML = card(data);
+    body.removeAttribute('style');
+  }, duration);
 }

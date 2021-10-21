@@ -1,26 +1,19 @@
 import Aside from './Aside.js';
 const sideBar = new Aside;
-const { protocol, host } = location;
 
 export default class Invoice {
   constructor(params) {
-    document.title = 'Invoices ID';
+    this.params = params;
+    document.title = `Invoices App | #${this.params.id}`;
 
     let link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = '/static/css/print.css';
     document.head.append(link);
-
-    this.params = params;
   }
 
   async getHtml() {
-    let card;
-
-    await fetch(`${protocol}//${host}/card/${this.params.id}`)
-      .then(res => res.json())
-      .then(data => card = data)
-      .catch(err => console.log(err))
+    let card = JSON.parse(localStorage.cardList).find(item => item.id === this.params.id);
 
     return `
     ${sideBar.render()}
@@ -35,7 +28,7 @@ export default class Invoice {
 
           <div class="invoice-buttons">
             <button>Edite</button>
-            <button>Delete</button>
+            <button><a href="/" data-link>Delete</a></button>
           </div>
         </div>
 
@@ -98,7 +91,7 @@ export default class Invoice {
 
       <div class="invoice-buttons">
         <button>Edite</button>
-        <button>Delete</button>
+        <button><a href="/" data-link>Delete</a></button>
       </div>
     </main>
     `;
