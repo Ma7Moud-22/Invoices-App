@@ -82,7 +82,7 @@ export default class Invoice {
             <tfoot>
               <tr>
                 <th colspan="2">Amount Due</th>
-                <td colspan="2" class="price">${card.itemList.length > 1 ? card.itemList.reduce((a, c) => a.total + c.total).toLocaleString() : card.itemList[0].total.toLocaleString()}</td>
+                <td colspan="2" class="price">${card.itemList.length > 1 ? card.itemList.reduce((a, { total }) => a + total, 0).toLocaleString() : card.itemList[0].total.toLocaleString()}</td>
               </tr>
             </tfoot>
           </table>

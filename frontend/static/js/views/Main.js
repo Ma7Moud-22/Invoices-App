@@ -1,3 +1,4 @@
+import { addDateAsValue } from './Form.js';
 const filter = ['All', 'Paid', 'Pending', 'Draft'];
 let cards = window.localStorage.cardList && JSON.parse(window.localStorage.cardList) || null;
 
@@ -119,12 +120,42 @@ window.addEventListener('load', () => {
     // ==============================
 
     // ==== delete invoice ====
-    if (e.target.matches('div.invoice-buttons button a')) {
+    if (e.target.matches('div.invoice-buttons button:last-child')) {
+
+      const shadow = document.createElement('div');
+      shadow.className = 'shadow';
+
+      const popup = document.createElement('div');
+      popup.className = 'popup-modal';
+
+      popup.innerHTML = `
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete invoice "#${document.querySelector('.id').innerText}"?</p>
+        <p>This action cannot be undone.</p>
+        <div>
+          <button>Cancel</button>
+          <button>Delete</button>
+        </div>
+      `;
+
+      document.body.append(shadow, popup);
+      setTimeout(() => popup.style.transform = 'translate(-50%, -50%) scale(1)', 1);
+    }
+
+    if (e.target.matches('div.popup-modal div button:last-child')) {
       const id = document.querySelector('h1.id').innerText;
       const list = JSON.parse(localStorage.cardList);
 
+      document.querySelector('div.invoice-buttons button a').click();
+
       localStorage.cardList = JSON.stringify(list.filter(item => item.id !== id));
+      removeModal(e.target, 100);
       setTimeout(() => reloadCards(list.filter(item => item.id !== id), 100), 650);
+    }
+
+    // ==== Remove Popup Modal ====
+    if (e.target.matches('div.shadow') || e.target.matches('div.popup-modal div button:first-child')) {
+      removeModal(e.target, 400);
     }
     // ========================
   });
@@ -138,9 +169,20 @@ window.addEventListener('load', () => {
       allInputs.forEach(input => {
         input.value.trim() === '' && (input.style.borderColor = 'rgb(236, 87, 87)');
 
-        if (input.value.trim() !== '' && input.id !== 'invoiceDate' && input.id !== 'paymentDate') {
+        if (input.value.trim() !== '' && input.id !== 'invoiceDate' && input.id !== 'paymentDate' && input.id !== 'total') {
           dataObj = makeInvoice(allInputs, 'Pending');
         }
+
+        if (input.id === 'invoiceDate' || input.id === 'total' || input.id === 'paymentDate') {
+          switch (input.id) {
+            case 'invoiceDate': input.value = addDateAsValue(); break;
+            case 'total': input.value = 0; break;
+            case 'paymentDate': input.value = 1; break;
+          }
+        } else {
+          input.value = '';
+        }
+
       });
 
       if (dataObj !== null) {
@@ -223,7 +265,7 @@ function card(data) {
         <div class="card-left">
           <h2 class="id">${card.id}</h2>
           <div class="date">${card.paymentDate}</div>
-          <div class="price">${card.itemList.length > 1 ? card.itemList.reduce((a, c) => a.total + c.total).toLocaleString() : card.itemList[0].total.toLocaleString()}</div>
+          <div class="price">${card.itemList.length > 1 ? card.itemList.reduce((a, { total }) => a + total, 0).toLocaleString() : card.itemList[0].total.toLocaleString()}</div>
         </div>
         <div class="card-right">
           <div class="name">${card.clientDetails.name}</div>
@@ -321,4 +363,15 @@ function reloadCards(data, duration) {
     body.innerHTML = card(data);
     body.removeAttribute('style');
   }, duration);
+}
+
+function removeModal(element, transition) {
+  const modal = element.matches('div') ? element.nextElementSibling : element.closest('.popup-modal');
+
+  modal.style.transform = 'translate(-50%, -50%) scale(0)';
+  modal.style.transition = `transform ${transition}ms ease 0s`;
+  setTimeout(() => {
+    modal.previousElementSibling.remove();
+    modal.remove();
+  }, 400);
 }

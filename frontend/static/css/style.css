@@ -4,8 +4,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: color 100ms ease 0s, background-color 300ms ease 0s;
-  --theme-transition: color 100ms ease 0s, background-color 300ms ease 0s;
+  --theme-transition: color 300ms ease 0s, background-color 300ms ease 0s;
+  transition: var(--theme-transition);
 }
 
 a,
@@ -33,16 +33,26 @@ a:visited {
   --main-font-clr: 255, 255, 255;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   font-family: 'Spartan', sans-serif;
   font-size: 16px;
   background-color: var(--bg-clr);
   color: rgba(var(--main-font-clr), 0.9);
+  scrollbar-width: none;
+  -ms-scrollbar-width: none;
+  height: 100%;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 div.container {
-  margin-top: 80px;
-  overflow: hidden;
+  padding-top: 80px;
 }
 
 aside {
@@ -163,7 +173,6 @@ main div.head {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
-  color: rgba(var(--main-font-clr), 0.9);
   position: relative;
   background-color: var(--bg-clr);
   z-index: 1;
@@ -181,6 +190,7 @@ div.left h1 {
   font-weight: 700;
   font-size: 1.25rem;
   margin-bottom: 10px;
+  color: rgba(var(--main-font-clr), 0.9);
 }
 
 div.left p {
@@ -381,7 +391,6 @@ div.card {
   display: flex;
   color: rgba(var(--main-font-clr), 0.9);
   cursor: pointer;
-  /* opacity: 0; */
   pointer-events: none;
 }
 
@@ -402,6 +411,7 @@ div.card > * {
   font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
+  color: rgba(var(--main-font-clr), 0.9);
 }
 
 .id::before {
@@ -413,16 +423,19 @@ div.card > * {
 div.card .date {
   font-size: 0.75rem;
   margin-bottom: 0.5rem;
+  color: rgba(var(--main-font-clr), 0.9);
 }
 
 div.card .date::before {
   content: 'Due ';
+  color: rgba(var(--main-font-clr), 0.9);
 }
 
 div.card .price {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.08rem;
+  color: rgba(var(--main-font-clr), 0.9);
 }
 
 div.card .price::before {
@@ -506,8 +519,20 @@ form h2 {
   margin-bottom: 1rem;
 }
 
-form > div:first-of-type {
+div.scroll-container {
+  overflow: hidden;
+  height: 100%;
+}
+
+div.scroll-container > div:last-child::-webkit-scrollbar {
+  display: none;
+}
+
+div.scroll-container > div:last-child {
+  height: 100%;
   overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-scrollbar-width: none;
 }
 
 form fieldset {
@@ -587,6 +612,7 @@ label[for='invoiceDate']::before {
   background-color: #fff;
   top: 40px;
   z-index: 1;
+  pointer-events: none;
 }
 
 label[for='invoiceDate']::after {
@@ -600,6 +626,7 @@ label[for='invoiceDate']::after {
   border-top-width: 3px;
   border-radius: 1.5px;
   z-index: 2;
+  pointer-events: none;
 }
 
 :root[data-theme='dark'] label[for='invoiceDate']::before {
@@ -663,6 +690,7 @@ form fieldset div input::placeholder {
 form > div:last-of-type {
   display: flex;
   padding-top: var(--margin);
+  padding-right: 1rem;
   justify-content: space-between;
 }
 
@@ -755,6 +783,10 @@ div.status > div:first-child {
   justify-content: space-between;
   align-items: center;
   height: 100%;
+}
+
+div.status > div:first-child > div:first-child {
+  color: rgba(var(--main-font-clr), 0.8);
 }
 
 :root[data-theme='dark'] div.status,
@@ -960,6 +992,7 @@ div.invoice-buttons button {
 div.invoice-buttons button a {
   width: 100%;
   padding: 1rem 1.5rem;
+  pointer-events: none;
 }
 
 div.invoice-buttons button:first-child {
@@ -972,8 +1005,99 @@ div.invoice-buttons button:first-child {
   background-color: rgb(37 41 69);
 }
 
+/* ==== Popup ==== */
+div.shadow {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  z-index: 3;
+}
+
+div.popup-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  padding: 2rem 2.5rem;
+  border-radius: 0.5rem;
+  width: 30rem;
+  max-width: 80vw;
+  background-color: var(--card-clr);
+  transition: transform 400ms 0s ease, var(--theme-transition);
+  z-index: 4;
+}
+
+div.popup-modal h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: rgba(var(--main-font-clr), 0.9);
+}
+
+div.popup-modal p {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  color: rgba(var(--main-font-clr), 0.6);
+}
+
+div.popup-modal div {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+div.popup-modal div button {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  border-radius: 10rem;
+}
+
+div.popup-modal div button:last-child {
+  color: #fff;
+  background-color: rgb(236 87 87);
+}
+
+div.popup-modal div button:first-child {
+  color: rgba(var(--main-font-clr), 0.7);
+  background-color: rgb(249 250 254);
+}
+
+:root[data-theme='dark'] div.popup-modal div button:first-child {
+  background-color: rgb(37 41 69);
+}
+
 /* ==== Start Tablet ==== */
 @media (min-width: 768px) {
+  div.scroll-container {
+    position: relative;
+    padding-right: 1rem;
+  }
+
+  div.scroll-container:hover div.thumb {
+    opacity: 1;
+  }
+
+  div.scrollbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 14px;
+    background-color: hsla(var(--accent-clr) 67% / 0);
+    z-index: 1;
+  }
+
+  div.thumb {
+    width: 10px;
+    background-color: hsla(var(--accent-clr) 67% / 1);
+    margin-left: 2px;
+    border-radius: 5px;
+    height: 100px;
+    opacity: 0;
+    transition: opacity 300ms ease 0s, var(--theme-transition);
+  }
+
   main > *,
   div.invoice-details {
     padding: 3.5rem 3rem;
@@ -1106,7 +1230,7 @@ div.invoice-buttons button:first-child {
   main form {
     max-width: 40rem;
     border-radius: 0 1rem 1rem 0;
-    padding: 2.5rem 3rem 1.5rem;
+    padding: 2.5rem 2rem 1.5rem 3rem;
   }
 
   form > div:last-of-type {
@@ -1169,7 +1293,7 @@ div.invoice-buttons button:first-child {
 /* ==== Start Larg Screen ==== */
 @media (min-width: 900px) {
   div.container {
-    margin: 0;
+    padding-top: 0;
     padding-left: 80px;
     position: relative;
   }
@@ -1204,12 +1328,21 @@ div.invoice-buttons button:first-child {
 
   main form {
     height: 100vh;
-    border-left: 50px solid var(--bg-clr);
   }
 
   main form.active {
-    transform: translateX(30px);
-    max-width: calc(40rem + 50px);
+    transform: translateX(80px);
+  }
+
+  main form.active::before {
+    content: '';
+    background: var(--bg-clr);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    transform: translateX(-30px);
   }
 
   main {
