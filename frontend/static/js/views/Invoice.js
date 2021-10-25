@@ -6,10 +6,12 @@ export default class Invoice {
     this.params = params;
     document.title = `Invoices App | #${this.params.id}`;
 
-    let link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/static/css/print.css';
-    document.head.append(link);
+    if (!document.head.querySelector('link[href="/static/css/print.css"]')) {
+      let link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/static/css/print.css';
+      document.head.append(link);
+    }
   }
 
   async getHtml() {
@@ -26,10 +28,7 @@ export default class Invoice {
             <div class="card-btn${card.status === 'Pending' ? ' pending' : card.status === 'Draft' ? ' draft' : ''}">${card.status}</div>
           </div>
 
-          <div class="invoice-buttons">
-            <button>Edite</button>
-            <button><a href="/" data-link>Delete</a></button>
-          </div>
+          ${invoicesButtons(card.status)}
         </div>
 
         <div class="details">
@@ -89,10 +88,7 @@ export default class Invoice {
         </div>
       </div>
 
-      <div class="invoice-buttons">
-        <button>Edite</button>
-        <button><a href="/" data-link>Delete</a></button>
-      </div>
+      ${invoicesButtons(card.status)}
     </main>
     `;
   }
@@ -108,5 +104,36 @@ window.addEventListener('load', () => {
         transition: transform 600ms linear 0s, opacity 600ms ease 0s, var(--theme-transition);
       `;
     }
+
+    // ==== Mark As Paid ====
+    if (e.target.matches('div.invoice-buttons button:last-child:not(:nth-child(2))')) {
+      const cardId = document.querySelector('.id').innerText;
+      const data = JSON.parse(localStorage.cardList);
+      const card = data.find(card => card.id === cardId);
+
+      card.status = 'Paid';
+      localStorage.cardList = JSON.stringify(data);
+
+      const cardStatus = document.querySelector('div.card-btn');
+      cardStatus.innerHTML = 'Paid';
+      cardStatus.classList.remove('pending');
+      cardStatus.classList.remove('draft');
+
+      e.target.style.cssText = `
+        opacity: 0;
+        transition: opacity 200ms ease 0s, var(--theme-transition);
+      `;
+      setTimeout(() => e.target.remove(), 200);
+    }
   });
 });
+
+function invoicesButtons(status) {
+  return `
+  <div class="invoice-buttons">
+    <button>Edite</button>
+    <button><a href="/" data-link>Delete</a></button>
+    ${status !== 'Paid' ? '<button>Mark As Paid</button>' : ''}
+  </div>
+  `;
+}

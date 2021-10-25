@@ -21,8 +21,12 @@
 ## Features
 
 - Dark mode Support
+- Custome scrollbars
 - Responsive on all screens
 - Print Media query (Invoice App!)
 - Focus and hover states and other stuff
 - Transition when routing from page to another
+- Invoices added to localstorage
 - Filter cards with status
+- You can add new invoice as ['Pending', 'Draft'] status
+- You can delete invoice

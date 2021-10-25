@@ -20,8 +20,9 @@ export default class Main {
   async render() {
     !cards && await this.getData();
 
-    const key = await getKey(this.DATA);
-    const data = await filterData(this.DATA, key);
+    const cardList = JSON.parse(window.localStorage.cardList);
+    const key = await getKey(cardList);
+    const data = await filterData(cardList, key);
 
     return `
     <main class="home">
@@ -119,8 +120,20 @@ window.addEventListener('load', () => {
     }
     // ==============================
 
+    // ==== Mark As Paid ====
+    // if (e.target.matches('div.invoice-buttons button:last-child:not(:nth-child(2))')) {
+    //   const cardId = document.querySelector('.id').innerText;
+    //   const data = JSON.parse(localStorage.cardList);
+    //   const card = data.find(card => card.id === cardId);
+
+    //   card.status = 'Paid';
+    //   localStorage.cardList = JSON.stringify(data);
+
+    //   // console.log(data, card)
+    // }
+
     // ==== delete invoice ====
-    if (e.target.matches('div.invoice-buttons button:last-child')) {
+    if (e.target.matches('div.invoice-buttons button:nth-child(2)')) {
 
       const shadow = document.createElement('div');
       shadow.className = 'shadow';
@@ -164,39 +177,9 @@ window.addEventListener('load', () => {
   window.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.submitter.id === 'send') {
-      const allInputs = e.target.querySelectorAll('[name]');
-      let dataObj = null;
-      allInputs.forEach(input => {
-        input.value.trim() === '' && (input.style.borderColor = 'rgb(236, 87, 87)');
-
-        if (input.value.trim() !== '' && input.id !== 'invoiceDate' && input.id !== 'paymentDate' && input.id !== 'total') {
-          dataObj = makeInvoice(allInputs, 'Pending');
-        }
-
-        if (input.id === 'invoiceDate' || input.id === 'total' || input.id === 'paymentDate') {
-          switch (input.id) {
-            case 'invoiceDate': input.value = addDateAsValue(); break;
-            case 'total': input.value = 0; break;
-            case 'paymentDate': input.value = 1; break;
-          }
-        } else {
-          input.value = '';
-        }
-
-      });
-
-      if (dataObj !== null) {
-        cards.unshift(dataObj);
-        localStorage.cardList = JSON.stringify(cards);
-        reloadCards(cards, 200);
-        removeForm(e.target);
-      }
-    }
-
-    if (e.submitter.id === 'draft') {
-      const allInputs = e.target.querySelectorAll('[name]');
-      const dataObj = makeInvoice(allInputs, 'Draft');
-      console.log(dataObj)
+      summitForm(e.target, 'Pending');
+    } else if (e.submitter.id === 'draft') {
+      summitForm(e.target, 'Draft');
     }
   });
   // =============================
@@ -374,4 +357,35 @@ function removeModal(element, transition) {
     modal.previousElementSibling.remove();
     modal.remove();
   }, 400);
+}
+
+function summitForm(element, status) {
+  const allInputs = element.querySelectorAll('[name]');
+  let dataObj = null;
+  allInputs.forEach(input => {
+    input.value.trim() === '' && (input.style.borderColor = 'rgb(236, 87, 87)');
+
+    if (input.value.trim() !== '' && input.id !== 'invoiceDate' && input.id !== 'paymentDate' && input.id !== 'total') {
+      dataObj = makeInvoice(allInputs, status);
+    }
+
+    setTimeout(() => {
+      if (input.id === 'invoiceDate' || input.id === 'total' || input.id === 'paymentDate') {
+        switch (input.id) {
+          case 'invoiceDate': input.value = addDateAsValue(); break;
+          case 'total': input.value = 0; break;
+          case 'paymentDate': input.value = 1; break;
+        }
+      } else {
+        input.value = '';
+      }
+    }, 200);
+  });
+
+  if (dataObj !== null) {
+    cards.unshift(dataObj);
+    localStorage.cardList = JSON.stringify(cards);
+    reloadCards(cards, 200);
+    removeForm(element);
+  }
 }

@@ -146,7 +146,7 @@ window.addEventListener('load', () => {
   // ==== Add New Item ====
   let counter = 1;
   window.addEventListener('click', (e) => {
-    if (e.target.matches('.add-new-item')) {
+    if (e.target.matches('.add-new-item') && e.clientX > 0 && e.clientX > 0) {
       e.preventDefault();
       const fieldset = document.createElement('fieldset');
       fieldset.classList = 'item-set';
@@ -181,7 +181,7 @@ window.addEventListener('load', () => {
       e.target.before(fieldset);
     }
     // ==== Remove Item ====
-    if (e.target.matches('#remove-item')) {
+    if (e.target.matches('#remove-item') && e.clientX > 0 && e.clientX > 0) {
       e.preventDefault();
       e.target.parentElement.remove();
     }

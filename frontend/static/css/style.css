@@ -8,6 +8,22 @@
   transition: var(--theme-transition);
 }
 
+@font-face {
+  font-family: 'Spartan';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/font/spartan-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spartan';
+  font-style: bold;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/static/font/spartan-700.woff2') format('woff2');
+}
+
 a,
 a:hover,
 a:visited {
@@ -16,21 +32,30 @@ a:visited {
 }
 
 :root {
-  --dark-clr: #373b53;
-  --accent-clr: 252deg 94%;
-  --bg-clr: #f8f8fb;
-  --card-clr: #fff;
-  --main-font-clr: 12, 14, 22;
-  --paid-clr: 51, 214, 160;
-  --draft-clr: 223, 227, 250;
-  --pending-clr: 255, 143, 0;
+  --bg-clr: 240 27% 98%;
+  --dark-clr: 231 20% 27%;
+  --card-clr: 0 0% 100%;
+  --main-font-clr: 228 29% 7%;
+  --secodry-btn-crl: 220 21% 95%;
+  --table-foot-clr: 231 20% 27%;
+  --label-font-crl: hsla(var(--accent-clr) 20% / 60%);
+  --card-shadow: 0px 10px 20px;
+  --card-shadow-clr: 232 38% 45%;
+  --accent-clr: 252 94%;
+  --paid-clr: 160 67% 52%;
+  --pending-clr: 34 100% 50%;
+  --draft-clr: 231 73% 93%;
 }
 
 :root[data-theme='dark'] {
-  --dark-clr: #1e2139;
-  --bg-clr: #141625;
-  --card-clr: #1e2139;
-  --main-font-clr: 255, 255, 255;
+  --bg-clr: 233 30% 11%;
+  --dark-clr: 233 31% 17%;
+  --card-clr: 233 31% 17%;
+  --main-font-clr: 0 0% 100%;
+  --secodry-btn-crl: 232 30% 21%;
+  --table-foot-clr: 228 29% 7%;
+  --label-font-crl: hsla(var(--accent-clr) 90% / 90%);
+  --card-shadow-clr: 0 0% 0%;
 }
 
 html {
@@ -40,8 +65,8 @@ html {
 body {
   font-family: 'Spartan', sans-serif;
   font-size: 16px;
-  background-color: var(--bg-clr);
-  color: rgba(var(--main-font-clr), 0.9);
+  background-color: hsl(var(--bg-clr));
+  color: hsla(var(--main-font-clr) / 90%);
   scrollbar-width: none;
   -ms-scrollbar-width: none;
   height: 100%;
@@ -58,7 +83,7 @@ div.container {
 aside {
   width: 100%;
   height: 80px;
-  background-color: var(--dark-clr);
+  background-color: hsl(var(--dark-clr));
   overflow: hidden;
   display: flex;
   justify-content: space-between;
@@ -174,7 +199,7 @@ main div.head {
   align-items: center;
   margin-bottom: 3rem;
   position: relative;
-  background-color: var(--bg-clr);
+  background-color: hsl(var(--bg-clr));
   z-index: 1;
 }
 
@@ -182,7 +207,7 @@ main div.head::before {
   content: '';
   position: absolute;
   inset: -100% -1rem -1rem;
-  background-color: var(--bg-clr);
+  background-color: hsl(var(--bg-clr));
   z-index: -1;
 }
 
@@ -190,16 +215,12 @@ div.left h1 {
   font-weight: 700;
   font-size: 1.25rem;
   margin-bottom: 10px;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 div.left p {
   font-size: 0.7em;
-  color: hsla(var(--accent-clr) 20% / 0.5);
-}
-
-:root[data-theme='dark'] div.left p {
-  color: hsla(var(--accent-clr) 95% / 0.8);
+  color: var(--label-font-crl);
 }
 
 div.right {
@@ -227,7 +248,7 @@ div.filter span span {
 div.filter button > span {
   font-weight: 700;
   font-size: 0.75rem;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
   position: relative;
   padding-right: 1.25rem;
   pointer-events: none;
@@ -259,23 +280,18 @@ ul.filter {
   width: 12rem;
   padding: 0.75rem;
   border-radius: 0.4rem;
-  background-color: var(--card-clr);
-  box-shadow: 0px 10px 20px rgb(72 84 159 / 25%);
+  background-color: hsl(var(--card-clr));
+  box-shadow: var(--card-shadow) hsla(var(--card-shadow-clr) / 25%);
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  transition: opacity 300ms ease 0s, transform 300ms linear 0s,
-    var(--theme-transition);
+  transition: opacity 300ms ease 0s, transform 300ms linear 0s, var(--theme-transition);
 }
 
 ul.filter.active {
   pointer-events: all;
   opacity: 1;
   transform: translate(-50%, 0);
-}
-
-:root[data-theme='dark'] ul.filter {
-  box-shadow: 0px 10px 20px rgb(0 0 0 / 25%);
 }
 
 ul.filter li {
@@ -307,7 +323,7 @@ ul.filter span {
   position: relative;
   font-size: 0.75rem;
   font-weight: 700;
-  color: rgba(var(--main-font-clr), 0.8);
+  color: hsla(var(--main-font-clr) / 80%);
   pointer-events: none;
 }
 
@@ -373,25 +389,24 @@ div.add-new button > span span {
 }
 
 div.body {
-  transition: transform 300ms ease 0s, opacity 200ms ease 0s,
-    var(--theme-transition);
+  transition: transform 300ms ease 0s, opacity 200ms ease 0s, var(--theme-transition);
 }
 
 div.body a {
   display: block;
   border: 1px solid transparent;
   transition: border 200ms ease 0s, var(--theme-transition);
-  border-radius: 0.5rem;
-  overflow: hidden;
 }
 
 div.card {
-  background-color: var(--card-clr);
+  background-color: hsl(var(--card-clr));
   padding: 1rem;
+  border-radius: 0.5rem;
   display: flex;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
   cursor: pointer;
   pointer-events: none;
+  box-shadow: var(--card-shadow) hsla(var(--card-shadow-clr) / 5%);
 }
 
 div.body a:hover,
@@ -411,7 +426,7 @@ div.card > * {
   font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 .id::before {
@@ -423,19 +438,19 @@ div.card > * {
 div.card .date {
   font-size: 0.75rem;
   margin-bottom: 0.5rem;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 div.card .date::before {
   content: 'Due ';
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 div.card .price {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.08rem;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 div.card .price::before {
@@ -447,18 +462,19 @@ div.card div.card-right {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 div.card .name {
   font-size: 0.75rem;
   text-align: end;
   white-space: nowrap;
-  color: rgba(var(--main-font-clr), 0.7);
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 div.card-btn {
-  background-color: rgba(var(--paid-clr), 0.1);
-  color: rgba(var(--paid-clr), 1);
+  background-color: hsla(var(--paid-clr) / 10%);
+  color: hsl(var(--paid-clr));
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.25;
@@ -472,13 +488,17 @@ div.card-btn {
 }
 
 div.card-btn.pending {
-  background-color: rgba(var(--pending-clr), 0.07);
-  color: rgba(var(--pending-clr), 1);
+  background-color: hsla(var(--pending-clr) / 7%);
+  color: hsl(var(--pending-clr));
 }
 
 div.card-btn.draft {
-  background-color: rgba(var(--draft-clr), 0.1);
-  color: rgba(var(--main-font-clr), 0.8);
+  background-color: hsla(var(--draft-clr) / 10%);
+  color: hsla(var(--main-font-clr) / 80%);
+}
+
+div.card-btn.draft::before {
+  background-color: hsla(var(--main-font-clr) / 80%);
 }
 
 div.card-btn::before {
@@ -497,9 +517,8 @@ main form {
   width: 100vw;
   display: grid;
   grid-template-rows: min-content 1fr min-content;
-  background-color: var(--bg-clr);
-  transition: transform 400ms cubic-bezier(0, 0, 0.6, 1.3) 0s,
-    var(--theme-transition);
+  background-color: hsl(var(--bg-clr));
+  transition: transform 400ms cubic-bezier(0, 0, 0.6, 1.3) 0s, var(--theme-transition);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -514,7 +533,7 @@ main form.active {
 }
 
 form h2 {
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
@@ -567,7 +586,7 @@ form #remove-item {
 input[name='total'] {
   border: none;
   background-color: transparent !important;
-  color: rgba(var(--main-font-clr), 0.5);
+  color: hsla(var(--main-font-clr) / 50%);
 }
 
 form fieldset legend {
@@ -590,12 +609,8 @@ form fieldset div {
 
 form fieldset div label {
   font-size: 0.75rem;
-  color: hsla(var(--accent-clr) 30% / 0.8);
+  color: var(--label-font-crl);
   margin-bottom: 0.75rem;
-}
-
-:root[data-theme='dark'] form fieldset div label {
-  color: hsla(var(--accent-clr) 90% / 0.9);
 }
 
 form fieldset div > div,
@@ -609,7 +624,7 @@ label[for='invoiceDate']::before {
   right: 10px;
   width: 1.5rem;
   height: 1.5rem;
-  background-color: #fff;
+  background-color: hsl(var(--card-clr));
   top: 40px;
   z-index: 1;
   pointer-events: none;
@@ -627,10 +642,6 @@ label[for='invoiceDate']::after {
   border-radius: 1.5px;
   z-index: 2;
   pointer-events: none;
-}
-
-:root[data-theme='dark'] label[for='invoiceDate']::before {
-  background-color: var(--dark-clr);
 }
 
 form fieldset div > div::before {
@@ -651,40 +662,29 @@ form fieldset div select {
   font-family: inherit;
   font-size: 0.75rem;
   font-weight: 700;
-  background-color: #fff;
-  color: rgba(var(--main-font-clr), 1);
+  background-color: hsl(var(--card-clr));
+  color: hsla(var(--main-font-clr) / 100%);
   border: 1px solid hsla(var(--accent-clr) 67% / 0.2);
   outline: none;
   padding: 1rem 0.5rem;
   width: 100%;
   display: block;
   border-radius: 0.4rem;
-  caret-color: rgba(var(--main-font-clr), 1);
+  caret-color: hsla(var(--main-font-clr) / 100%);
   appearance: none;
   transition: border 200ms ease 0s, var(--theme-transition);
   position: relative;
 }
 
 form fieldset div input:focus,
-:root[data-theme='dark'] form fieldset div input:focus,
-:root[data-theme='dark'] form fieldset div select:focus {
+form fieldset div select:focus {
   border-color: hsla(var(--accent-clr) 67% / 1);
-}
-
-:root[data-theme='dark'] form fieldset div input,
-:root[data-theme='dark'] form fieldset div select {
-  background-color: var(--dark-clr);
-  border-color: hsla(var(--accent-clr) 90% / 0.1);
 }
 
 form fieldset div input::placeholder {
   font-size: 0.75rem;
   font-weight: 700;
-  color: rgba(var(--main-font-clr), 0.4);
-}
-
-:root[data-theme='dark'] form fieldset div input::placeholder {
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 form > div:last-of-type {
@@ -706,31 +706,23 @@ form button.add-new-item {
 }
 
 form > div:last-of-type button:nth-child(1) {
-  background-color: rgb(235 237 246);
-  color: rgba(var(--main-font-clr), 0.7);
-}
-
-:root[data-theme='dark'] form > div:last-of-type button:nth-child(1) {
-  background-color: rgb(37 41 69);
+  background-color: hsl(var(--secodry-btn-crl));
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 form > div:last-of-type button:nth-child(2) {
-  background-color: rgb(54 59 83);
+  background-color: hsl(230 21% 27%);
 }
 
 form button.add-new-item {
   font-size: 0.75rem;
-  color: rgb(126 136 195);
-  background-color: rgb(235 237 246);
-}
-
-:root[data-theme='dark'] form button.add-new-item {
-  color: rgb(223 227 250);
-  background-color: rgb(30 33 57);
+  color: hsla(var(--main-font-clr) / 80%);
+  background-color: hsl(var(--secodry-btn-crl));
 }
 
 form button.add-new-item::before {
   content: '+';
+  color: hsla(var(--main-font-clr) / 80%);
   margin-right: 0.3rem;
   font-size: 0.9rem;
 }
@@ -747,7 +739,7 @@ div.invoice-details > * + * {
 
 div.invoice-details > a {
   font-size: 0.75rem;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
   padding-left: 1.5rem;
   width: max-content;
   position: relative;
@@ -767,11 +759,12 @@ div.invoice-details > a::before {
 }
 
 div.status {
-  background-color: #fff;
-  color: rgba(var(--main-font-clr), 0.8);
+  background-color: hsl(var(--card-clr));
+  color: hsla(var(--main-font-clr) / 80%);
   padding: 1rem;
   border-radius: 0.5rem;
   font-size: 0.75rem;
+  box-shadow: var(--card-shadow) hsla(var(--card-shadow-clr) / 5%);
 }
 
 div.status div.invoice-buttons {
@@ -786,25 +779,21 @@ div.status > div:first-child {
 }
 
 div.status > div:first-child > div:first-child {
-  color: rgba(var(--main-font-clr), 0.8);
-}
-
-:root[data-theme='dark'] div.status,
-:root[data-theme='dark'] div.details {
-  background-color: rgb(30 33 57);
+  color: hsla(var(--main-font-clr) / 80%);
 }
 
 div.details {
-  background-color: #fff;
+  background-color: hsl(var(--card-clr));
   padding: 1.5rem;
   border-radius: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 2rem;
+  box-shadow: var(--card-shadow) hsla(var(--card-shadow-clr) / 5%);
 }
 
 .item-info {
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
   grid-column: 1 / 3;
 }
 
@@ -812,7 +801,7 @@ div.details {
   font-size: 0.75rem;
   margin-top: -1.4rem;
   display: block;
-  color: rgba(var(--main-font-clr), 0.7);
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 div.details address:first-of-type,
@@ -825,14 +814,14 @@ div.details address > * {
   font-size: 0.7rem;
   letter-spacing: -0.05rem;
   display: block;
-  color: rgba(var(--main-font-clr), 0.7);
+  color: hsla(var(--main-font-clr) / 70%);
   margin-bottom: 0.15rem;
 }
 
 div.details address > div {
   font-size: 0.938rem;
   font-weight: 700;
-  color: rgba(var(--main-font-clr), 1);
+  color: hsla(var(--main-font-clr) / 100%);
   margin: 0.5rem 0;
 }
 
@@ -845,14 +834,14 @@ div.date-payment {
 div.date-payment div span,
 div.mail span {
   font-size: 0.75rem;
-  color: rgba(var(--main-font-clr), 0.7);
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 div.date-payment div div,
 div.mail div {
   font-size: 0.938rem;
   font-weight: 700;
-  color: rgba(var(--main-font-clr), 1);
+  color: hsla(var(--main-font-clr) / 100%);
   margin-top: 0.5rem;
 }
 
@@ -860,13 +849,9 @@ table.service {
   grid-column: 1 / 3;
   margin-top: 2rem;
   border-radius: 0.5rem;
-  background-color: rgb(249 250 254);
+  background-color: hsl(var(--secodry-btn-crl));
   border-collapse: collapse;
   overflow: hidden;
-}
-
-:root[data-theme='dark'] table.service {
-  background-color: rgb(37 41 69);
 }
 
 table.service thead,
@@ -903,12 +888,12 @@ table.service tbody tr td {
   text-align: center;
   font-size: 0.75rem;
   font-weight: 400;
-  color: rgba(var(--main-font-clr), 0.7);
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 table.service tbody tr td {
   font-weight: 700;
-  color: rgba(var(--main-font-clr), 1);
+  color: hsla(var(--main-font-clr) / 100%);
 }
 
 table.service tbody tr + tr {
@@ -916,7 +901,7 @@ table.service tbody tr + tr {
 }
 
 table.service tbody tr td:not(:first-child, :last-child) {
-  color: rgba(var(--main-font-clr), 0.7);
+  color: hsla(var(--main-font-clr) / 70%);
 }
 
 table.service thead tr > *:first-child,
@@ -930,14 +915,10 @@ table.service tbody tr > *:last-child {
 }
 
 table.service tfoot {
-  background-color: rgb(55 59 83);
+  background-color: hsl(var(--table-foot-clr));
   padding-bottom: 1.5rem;
   justify-content: space-between;
-  color: #fff;
-}
-
-:root[data-theme='dark'] table.service tfoot {
-  background-color: rgb(12 14 22);
+  color: hsl(0 0% 100%);
 }
 
 table.service tfoot tr > * {
@@ -953,7 +934,7 @@ table.service tfoot tr td {
 
 table .price::before {
   content: '£';
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 table tfoot .price::before {
@@ -969,12 +950,8 @@ table.service tbody tr > *:not(:first-child, :last-child) {
 div.invoice-buttons {
   display: flex;
   justify-content: flex-end;
-  background-color: rgb(255 255 255);
+  background-color: hsl(var(--card-clr));
   padding: 2rem 1.5rem;
-}
-
-:root[data-theme='dark'] div.invoice-buttons {
-  background-color: rgb(30 33 57);
 }
 
 div.invoice-buttons > * + * {
@@ -996,13 +973,14 @@ div.invoice-buttons button a {
 }
 
 div.invoice-buttons button:first-child {
-  background-color: rgb(249 250 254);
-  color: rgba(var(--main-font-clr), 0.7);
+  background-color: hsl(var(--secodry-btn-crl));
+  color: hsla(var(--main-font-clr) / 70%);
   padding: 1rem 1.5rem;
 }
 
-:root[data-theme='dark'] div.invoice-buttons button:first-child {
-  background-color: rgb(37 41 69);
+div.invoice-buttons button:last-child:not(:nth-child(2)) {
+  background-color: hsla(var(--accent-clr) 67% / 1);
+  padding: 1rem 1.5rem;
 }
 
 /* ==== Popup ==== */
@@ -1022,7 +1000,7 @@ div.popup-modal {
   border-radius: 0.5rem;
   width: 30rem;
   max-width: 80vw;
-  background-color: var(--card-clr);
+  background-color: hsl(var(--card-clr));
   transition: transform 400ms 0s ease, var(--theme-transition);
   z-index: 4;
 }
@@ -1030,13 +1008,13 @@ div.popup-modal {
 div.popup-modal h2 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
-  color: rgba(var(--main-font-clr), 0.9);
+  color: hsla(var(--main-font-clr) / 90%);
 }
 
 div.popup-modal p {
   font-size: 0.8rem;
   margin-bottom: 0.3rem;
-  color: rgba(var(--main-font-clr), 0.6);
+  color: hsla(var(--main-font-clr) / 60%);
 }
 
 div.popup-modal div {
@@ -1059,12 +1037,8 @@ div.popup-modal div button:last-child {
 }
 
 div.popup-modal div button:first-child {
-  color: rgba(var(--main-font-clr), 0.7);
-  background-color: rgb(249 250 254);
-}
-
-:root[data-theme='dark'] div.popup-modal div button:first-child {
-  background-color: rgb(37 41 69);
+  color: hsla(var(--main-font-clr) / 70%);
+  background-color: hsl(var(--secodry-btn-crl));
 }
 
 /* ==== Start Tablet ==== */
@@ -1336,7 +1310,7 @@ div.popup-modal div button:first-child {
 
   main form.active::before {
     content: '';
-    background: var(--bg-clr);
+    background: hsl(var(--bg-clr));
     position: absolute;
     left: 0;
     top: 0;
