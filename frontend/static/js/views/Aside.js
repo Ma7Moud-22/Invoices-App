@@ -14,7 +14,7 @@ export default class Aside {
           </div>
 
           <div class="user">
-            <img src="/static/imgs/005.jpg" alt="user" />
+            <img src="/static/imgs/user.webp" alt="user" />
           </div>
         </div>
       </aside>

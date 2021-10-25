@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/static/font/spartan-400.woff2') format('woff2');
+  src: url('../font/spartan-400.ttf') format('truetype');
 }
 
 @font-face {
@@ -21,7 +21,7 @@
   font-style: bold;
   font-weight: 700;
   font-display: swap;
-  src: url('/static/font/spartan-700.woff2') format('woff2');
+  src: url('../font/spartan-700.ttf') format('truetype');
 }
 
 a,
